@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import React,{useState} from 'react';
 import './App.css';
+import SearchItem from './Components/SearchItem/SearchItem'
+import MealTracker from './Components/MealTracker/MealTracker';
+import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
+import MealContext from './Context/MealContext'
 
+//const AppContext = React.createContext('light');
 function App() {
+  const [mealState,setMealState]=useState({
+    breakfast:[],lunch:[],dinner:[],mealType:"",mealCalories:{breakfast:0,lunch:0,dinner:0,total:0,initialCalories:2000}
+  })
   return (
+   
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+    <MealContext.Provider value={{mealState:mealState,setMealState:setMealState}}>
+       <Switch>
+         <Route exact path="/" >
+              <MealTracker/>
+           </Route>
+         <Route path="/searchItem" exact >
+              <SearchItem/>
+           </Route> 
+         </Switch>
+         </MealContext.Provider>
+      </Router> 
     </div>
   );
 }
